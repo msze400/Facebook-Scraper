@@ -22,7 +22,12 @@ const User = conn.define('user', {
 User.byToken = async (token) => {
     try {
         const { id } = await jwt.verify(token, process.env.JWT)
-        const user = await User.findByPk(id)
+        const user = await User.findOne({
+            where: {
+                id: id,
+            },
+            include: UserLogin,
+        })
         if (user) {
             return user
         }
@@ -88,12 +93,17 @@ const getUserFromGithubUser = async ({ login, id, ...other }) => {
             githubId: id,
         })
     }
+
+    await UserLogin.create({
+        userId: user.id,
+    })
     return user
 }
 
 //the authenticate methods is passed a code which has been sent by github
 //if successful it will return a token which identifies a user in this app
 User.authenticate = async (code) => {
+    console.log(code)
     const access_token = await codeForGithubToken(code)
     const githubUser = await accessTokenForGithubUser(access_token)
     const user = await getUserFromGithubUser(githubUser)
@@ -104,9 +114,15 @@ const syncAndSeed = async () => {
     await conn.sync({ force: true })
 }
 
+const UserLogin = conn.define('userlogin')
+
+UserLogin.belongsTo(User)
+User.hasMany(UserLogin)
+
 module.exports = {
     syncAndSeed,
     models: {
         User,
+        UserLogin,
     },
 }

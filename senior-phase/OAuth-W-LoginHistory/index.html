@@ -48,13 +48,17 @@
           const { login, logout } = this;
           if(!auth.id){
             return (
-              <a href={`https://github.com/login/oauth/authorize?client_id=${window.GITHUB_CLIENT_ID}`}>Login to Github</a>
+              <div>
+                <a href={`https://github.com/login/oauth/authorize?client_id=${window.GITHUB_CLIENT_ID}`}>Login to Github</a>
+                </div>
+              
             );
           }
           else {
             return (
               <div>
                 <button onClick={ logout }>Logout ({ auth.username})</button>
+                <ul>{auth.userlogins ? auth.userlogins.map(entry => <li>{new Date(entry.createdAt).toString()}</li>) : ''}</ul>
               </div>
             );
           }

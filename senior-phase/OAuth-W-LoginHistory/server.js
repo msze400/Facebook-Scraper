@@ -1,5 +1,8 @@
 try {
-    require('./secrets')
+    const env = require('./secrets')
+    process.env.GITHUB_CLIENT_ID = env.GITHUB_CLIENT_ID
+    process.env.GITHUB_CLIENT_SECRET = env.GITHUB_CLIENT_SECRET
+    console.log(process.env.GITHUB_CLIENT_ID, process.env.GITHUB_CLIENT_SECRET)
 } catch (ex) {
     console.log(ex)
     console.log(
