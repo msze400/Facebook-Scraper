@@ -14,11 +14,11 @@ driver.get(url);
 driver.implicitly_wait(10)
 
 driver.find_element_by_xpath('//*[@id="email"]').send_keys('matthew.t.sze@gmail.com')
-driver.find_element_by_xpath('//*[@id="pass"]').send_keys('Hunter3389')
+driver.find_element_by_xpath('//*[@id="pass"]').send_keys('facebookscraper3389')
 driver.find_element_by_xpath('//*[@id="loginbutton"]').click();
 
 driver.implicitly_wait(10)
-x``
+
 driver.get(url);
 
 
